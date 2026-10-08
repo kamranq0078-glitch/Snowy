@@ -34,3 +34,9 @@ document.getElementById('memoryButton').addEventListener('click',()=>{const pop=
 const canvas=document.getElementById('snow'),ctx=canvas.getContext('2d');let flakes=[];
 function resize(){const dpr=Math.min(devicePixelRatio||1,2);canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;canvas.style.width=innerWidth+'px';canvas.style.height=innerHeight+'px';ctx.setTransform(dpr,0,0,dpr,0,0);const count=reduced?35:Math.min(110,Math.round(innerWidth/8));flakes=Array.from({length:count},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.6+Math.random()*2.1,v:.35+Math.random()*.9,w:Math.random()*6,a:.3+Math.random()*.55}))}addEventListener('resize',resize);resize();
 function draw(){ctx.clearRect(0,0,innerWidth,innerHeight);for(const f of flakes){ctx.beginPath();ctx.fillStyle=`rgba(255,255,255,${f.a})`;ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fill();f.y+=reduced?f.v*.28:f.v;f.x+=Math.sin(f.y*.012+f.w)*.35;if(f.y>innerHeight+4){f.y=-4;f.x=Math.random()*innerWidth}}requestAnimationFrame(draw)}draw();
+
+// Stream the official BTS upload; playback starts only after the visitor opens the player.
+const musicButton=document.getElementById('musicButton'),musicPanel=document.getElementById('musicPanel');
+function setMusicPanel(open){musicPanel.hidden=!open;musicButton.setAttribute('aria-expanded',String(open))}
+musicButton.addEventListener('click',()=>setMusicPanel(musicPanel.hidden));
+document.getElementById('musicClose').addEventListener('click',()=>setMusicPanel(false));
